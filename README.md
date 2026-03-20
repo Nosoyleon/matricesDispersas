@@ -10,6 +10,17 @@
 ## Funcionalidades para práctica
 
 ### 1. Tripleta
+En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
+
+| #Filas | #Columnas | #Datos |
+| -| - | - |
+| Fila | Columna | Dato |
+| Fila | Columna | Dato |
+| Fila | Columna | Dato |
+| ... | ... | ... |
+
+---
+
 - [ ] Crear
 - [ ] Mostrar forma
 - [ ] Suma de filas
@@ -21,6 +32,16 @@
 - [ ] multiplicar matrices
 
 ### 2. Forma 1
+1. Generar registros cabeza liga inicial
+2. Por cada registro cabeza generar fila con dato creando liga de fila
+3. por cada registro cabeza generar liga de columna 
+   
+**Listas ligadas Circulares**
+
+<img width="2124" height="2810" alt="image" src="https://github.com/user-attachments/assets/3f283b12-aeef-4f97-963f-6f14b721adf2" />
+
+---
+
 - [ ] Crear
 - [ ] Mostrar forma
 - [ ] Suma de filas
