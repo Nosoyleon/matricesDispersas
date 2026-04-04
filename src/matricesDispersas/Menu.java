@@ -41,14 +41,13 @@ public class Menu {
 		System.out.println("");
 	
 		System.out.println("1 - Nueva Matriz");
-		System.out.println("2 - Reemplazar Matriz");
-		System.out.println("3 - Mostrar Forma");
-		System.out.println("4 - Sumar Filas");
-		System.out.println("5 - Sumar Columnas");
-		System.out.println("6 - Insertar Dato");
-		System.out.println("7 - Eliminar Dato");
-		System.out.println("8 - Sumar Matrices");
-		System.out.println("9 - Multiplicar Matrices");
+		System.out.println("2 - Mostrar Forma");
+		System.out.println("3 - Sumar Filas");
+		System.out.println("4 - Sumar Columnas");
+		System.out.println("5 - Insertar Dato");
+		System.out.println("6 - Eliminar Dato");
+		System.out.println("7 - Sumar Matrices");
+		System.out.println("8 - Multiplicar Matrices");
 	
 		
 		System.out.println("0 - Volver");

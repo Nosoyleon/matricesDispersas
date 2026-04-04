@@ -6,10 +6,11 @@ import enums.MainMenuOption;
 import enums.MatrizOption;
 
 public class Inicio {
-	private Tripleta[] allTripletas;
+
+	private static Tripleta mainTripleta;
+	private static Forma1 mainForma1;
 
 	public static void main(String[] args) {
-		System.out.println("Hello");
 
 		Scanner scanner = new Scanner(System.in);
 		Menu menu = new Menu(scanner);
@@ -17,12 +18,17 @@ public class Inicio {
 		MainMenuOption userInput;
 
 		do {
+			if(mainTripleta != null) {
+				System.out.println("");
+				System.out.println("Tripleta actual: " + mainTripleta.showSummary());
+				System.out.println("");
+			}
 			userInput = menu.showMainMenu();
 
 			switch (userInput) {
 			case TRIPLETA: {
 
-				caseTripleta(menu);
+				caseTripleta(menu, scanner);
 
 				break;
 			}
@@ -55,23 +61,33 @@ public class Inicio {
 
 	}
 
-	static void caseTripleta(Menu menu) {
-
+	public static void caseTripleta(Menu menu, Scanner scanner) {
 		MatrizOption userInput;
 
 		do {
 			System.out.println("Menu - Tripletas");
-			userInput = menu.showMatrizMenu();
+			if (mainTripleta != null) {
+				System.out.println(mainTripleta.showSummary());
+				userInput = menu.showMatrizMenu();
+			} else {
+				userInput = MatrizOption.NEW;
+			}
 
 			switch (userInput) {
 			case NEW: {
+				System.out.println("###");
+				System.out.println("Datos de la nueva Matriz");
+				System.out.println("Número de Filas:");
+				int rows = scanner.nextInt();
+				System.out.println("Número de Columnas:");
+				int cols = scanner.nextInt();
+				System.out.println("Cantidad de datos diferentes de 0:");
+				int numDatos = scanner.nextInt();
 
-				break;
-			}
+				Tripleta newTripleta = new Tripleta(rows, cols, numDatos);
+				newTripleta.filTripleta();
 
-			case REPLACE: {
-
-				System.out.println("Replace");
+				mainTripleta = newTripleta;
 
 				break;
 			}
