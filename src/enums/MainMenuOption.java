@@ -1,18 +1,18 @@
 package enums;
 
-import enums.MainMenu;
+import enums.MainMenuOption;
 
-public enum MainMenu {
+public enum MainMenuOption {
 	EXIT(0), TRIPLETA(1), FORMA_1(2), FORMA_2(3), INVALID(999);
 
 	private final int value;
 
-	MainMenu(int value) {
+	MainMenuOption(int value) {
 		this.value = value;
 	}
 
-	public static MainMenu fromInt(int value) {
-		for (MainMenu option : MainMenu.values()) {
+	public static MainMenuOption fromInt(int value) {
+		for (MainMenuOption option : MainMenuOption.values()) {
 			if (option.value == value) {
 				return option;
 			}
