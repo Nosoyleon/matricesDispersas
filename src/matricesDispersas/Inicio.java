@@ -8,7 +8,7 @@ import enums.MatrizOption;
 public class Inicio {
 
 	private static Tripleta mainTripleta;
-	private static Forma1 mainForma1;
+//	private static Forma1 mainForma1;
 
 	public static void main(String[] args) {
 
@@ -94,8 +94,7 @@ public class Inicio {
 
 			case SHOW_FORMA: {
 
-				System.out.println("Show Forma");
-
+				System.out.println(mainTripleta.showForma());
 				break;
 			}
 
