@@ -175,6 +175,34 @@ public class Inicio {
 				break;
 
 			}
+			
+			case DELETE_DATO: {
+				System.out.println("Eliminar por:");
+				System.out.println("1 - Coordenada");
+				System.out.println("2 - Dato");
+				
+				int decision = scanner.nextInt();
+				
+				if(decision == 1) {
+					System.out.println("Fila:");
+					int rowToDel = scanner.nextInt();
+					System.out.println("Columna:");
+					int colToDel = scanner.nextInt();
+					
+					mainTripleta.deleteByCord(rowToDel, colToDel);
+					
+					
+				}else if(decision == 2) {
+					System.out.println("Dato a eliminar:");
+					int datoToDel = scanner.nextInt();
+					mainTripleta.deleteByDato(datoToDel);
+					
+				}else {
+					System.out.println("Option Invalidad");
+				}
+				
+				break;
+			}
 
 			case EXIT: {
 				System.out.println("Menú Anteior!");

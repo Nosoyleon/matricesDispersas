@@ -1,7 +1,4 @@
 # Matrices dispersas en 3 formas 🥶
-- Considerar Array de matrices para las tres formas
-- Al realizar operaciones preguntar por las matrices a operar
-- Al realizar operaciones se considera la matriz original ej: **Una soma de una fila que tenga datos en 0 da 0**
 
 ## Generar matriz  
 *Datos vacios se consideran en 0, en la matriz dispersa no aparece*
@@ -26,9 +23,9 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Suma de filas
 - [x] Suma de columnas
 - [x] Insertar dato
-- [ ] Eliminar dato
-	- [ ] Por cord
-	- [ ] por dato
+- [x] Eliminar dato
+	- [x] Por cord
+	- [x] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
@@ -48,6 +45,9 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [ ] Suma de filas
 - [ ] Suma de columnas
 - [ ] Insertar dato
+- [ ] Eliminar dato
+	- [ ] Por cord
+	- [ ] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 

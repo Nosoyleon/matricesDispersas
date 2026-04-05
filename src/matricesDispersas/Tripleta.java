@@ -16,25 +16,25 @@ public class Tripleta {
 	public int[][] getDatos() {
 		return datos;
 	}
-	
+
 	public int getRowsCount() {
 		return datos[0][0];
 	}
-	
+
 	public int getColsCount() {
 		return datos[0][1];
 	}
-	
+
 	public int getNumDatos() {
 		return datos[0][2];
 	}
-	
+
 	public void setDato(int i, int row, int col, int dato) {
 		datos[i][0] = row;
 		datos[i][1] = col;
 		datos[i][2] = dato;
 	}
-	
+
 	public void setDatos(int[][] newDatos) {
 		datos = newDatos;
 	}
@@ -48,7 +48,11 @@ public class Tripleta {
 		while (datosRow <= numDatos) {
 			int randomRow = (int) (Math.random() * ((rows - 1) - 0 + 1)) + 0;
 			int randomCol = (int) (Math.random() * ((cols - 1) - 0 + 1)) + 0;
-			int randomDato = (int) (Math.random() * (20 - (-20) + 1)) + (-20);
+			int randomDato;
+
+			do {
+				randomDato = (int) (Math.random() * (20 - (-20) + 1)) + (-20);
+			} while (randomDato == 0);
 
 			boolean existCord = false;
 
@@ -154,6 +158,55 @@ public class Tripleta {
 		return output;
 	}
 
+	public void deleteByDato(int dato) {
+		int foundRow;
+		int foundCol;
+		boolean found = false;
+		
+		for (int i = 1; i <= getNumDatos(); i++) {
+			if (datos[i][2] == dato) {
+				foundRow = datos[i][0];
+				foundCol = datos[i][1];
+				deleteByCord(foundRow, foundCol);
+				found= true;
+			}
+
+		}
+		
+		if(!found) {
+			System.out.println("No se encontró la coordenada");
+		}
+	}
+	
+	public void deleteByCord(int row, int col) {
+		boolean found = false;
+		int[][] newDatos = new int[getNumDatos()][3];
+		int pos = 1;
+
+		for (int i = 1; i <= getNumDatos(); i++) {
+			if (datos[i][0] == row && datos[i][1] == col) {
+				found = true;
+			} else {
+				newDatos[pos][0] = datos[i][0];
+				newDatos[pos][1] = datos[i][1];
+				newDatos[pos][2] = datos[i][2];
+				pos++;
+			}
+
+		}
+
+		if (!found) {
+			System.out.println("No se encontró la coordenada");
+		} else {
+			newDatos[0][0] = getRowsCount();
+			newDatos[0][1] = getColsCount();
+			newDatos[0][2] = getNumDatos() - 1;
+			datos = newDatos;
+
+		}
+
+	}
+
 	public void orderMatriz() {
 		Arrays.sort(datos, 1, datos.length, (a, b) -> {
 			if (a[0] != b[0]) {
@@ -164,4 +217,5 @@ public class Tripleta {
 		});
 
 	}
+
 }
