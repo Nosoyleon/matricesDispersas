@@ -25,9 +25,10 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Mostrar forma
 - [x] Suma de filas
 - [x] Suma de columnas
-- [ ] Insertar dato
-  - [ ] Por dato
-  - [ ] Por posición
+- [x] Insertar dato
+- [ ] Eliminar dato
+	- [ ] Por cord
+	- [ ] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
@@ -47,8 +48,6 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [ ] Suma de filas
 - [ ] Suma de columnas
 - [ ] Insertar dato
-  - [ ] Por dato
-  - [ ] Por posición
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
@@ -58,8 +57,9 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [ ] Suma de filas
 - [ ] Suma de columnas
 - [ ] Insertar dato
-  - [ ] Por dato
-  - [ ] Por posición
+- [ ] Eliminar dato
+	- [ ] Por cord
+	- [ ] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
