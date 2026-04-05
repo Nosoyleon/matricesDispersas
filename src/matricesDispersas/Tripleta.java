@@ -1,5 +1,7 @@
 package matricesDispersas;
 
+import java.util.Arrays;
+
 public class Tripleta {
 	private int datos[][];
 
@@ -10,37 +12,38 @@ public class Tripleta {
 		datos[0][2] = numDatos;
 	}
 
-	public void filTripleta() {
+	public void fillTripleta() {
 		int rows = datos[0][0];
 		int cols = datos[0][1];
 		int numDatos = datos[0][2];
 		int datosRow = 1;
-		
-		while(datosRow <= numDatos) {			
+
+		while (datosRow <= numDatos) {
 			int randomRow = (int) (Math.random() * ((rows - 1) - 0 + 1)) + 0;
 			int randomCol = (int) (Math.random() * ((cols - 1) - 0 + 1)) + 0;
 			int randomDato = (int) (Math.random() * (20 - (-20) + 1)) + (-20);
-			
+
 			boolean existCord = false;
-			
+
 			// Check if dato in cord was added
-			
-			for(int j = 1; j<= numDatos; j++) {
-				if(datos[j][0] == randomRow && datos[j][1] == randomCol) {
+
+			for (int j = 1; j <= numDatos; j++) {
+				if (datos[j][0] == randomRow && datos[j][1] == randomCol) {
 					existCord = true;
 				}
 			}
-			
-			if(!existCord) {
-				
+
+			if (!existCord) {
+
 				datos[datosRow][0] = randomRow;
 				datos[datosRow][1] = randomCol;
 				datos[datosRow][2] = randomDato;
 				datosRow++;
 			}
-			
+
 		}
-	
+		
+		orderMatriz();
 		
 	}
 
@@ -62,5 +65,16 @@ public class Tripleta {
 		}
 
 		return output;
+	}
+	
+	private void orderMatriz() {
+		Arrays.sort(datos,1, datos.length, (a,b) -> {
+		    if (a[0] != b[0]) {
+		        return Integer.compare(a[0], b[0]); // sort by column 0 first
+		    } else {
+		        return Integer.compare(a[1], b[1]); // if equal, sort by column 1
+		    }
+		});
+		
 	}
 }

@@ -85,7 +85,7 @@ public class Inicio {
 				int numDatos = scanner.nextInt();
 
 				Tripleta newTripleta = new Tripleta(rows, cols, numDatos);
-				newTripleta.filTripleta();
+				newTripleta.fillTripleta();
 
 				mainTripleta = newTripleta;
 
