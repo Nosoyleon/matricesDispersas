@@ -97,6 +97,11 @@ public class Inicio {
 				System.out.println(mainTripleta.showForma());
 				break;
 			}
+			
+			case SUMAR_FILAS: {
+				System.out.println(mainTripleta.sumRows());
+				break;
+			}
 
 			case EXIT: {
 				System.out.println("Menú Anteior!");

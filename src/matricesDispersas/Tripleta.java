@@ -42,9 +42,9 @@ public class Tripleta {
 			}
 
 		}
-		
+
 		orderMatriz();
-		
+
 	}
 
 	public String showSummary() {
@@ -66,15 +66,42 @@ public class Tripleta {
 
 		return output;
 	}
-	
+
+	public String sumRows() {
+		int numDatos = datos[0][2];
+		String output = "";
+		int sumFila = 0;
+
+		for (int i = 1; i <= numDatos; i++) {
+			if (i == 1) {
+				sumFila += datos[i][2];
+			} else {
+				if (datos[i][0] == datos[i - 1][0]) {
+					sumFila += datos[i][2];
+				} else {
+					output += "Suma Fila " + datos[i -1][0] + ": " + sumFila + "\n";
+					sumFila = datos[i][2];
+				}
+
+				if (i == numDatos) {
+					output += "Suma Fila " + datos[i][0] + ": " + sumFila + "\n";
+				}
+
+			}
+
+		}
+
+		return output;
+	}
+
 	private void orderMatriz() {
-		Arrays.sort(datos,1, datos.length, (a,b) -> {
-		    if (a[0] != b[0]) {
-		        return Integer.compare(a[0], b[0]); // sort by column 0 first
-		    } else {
-		        return Integer.compare(a[1], b[1]); // if equal, sort by column 1
-		    }
+		Arrays.sort(datos, 1, datos.length, (a, b) -> {
+			if (a[0] != b[0]) {
+				return Integer.compare(a[0], b[0]); // sort by column 0 first
+			} else {
+				return Integer.compare(a[1], b[1]); // if equal, sort by column 1
+			}
 		});
-		
+
 	}
 }
