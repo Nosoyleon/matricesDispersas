@@ -24,7 +24,7 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Crear
 - [x] Mostrar forma
 - [x] Suma de filas
-- [ ] Suma de columnas
+- [x] Suma de columnas
 - [ ] Insertar dato
   - [ ] Por dato
   - [ ] Por posición

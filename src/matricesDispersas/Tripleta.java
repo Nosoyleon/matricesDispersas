@@ -1,5 +1,6 @@
 package matricesDispersas;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Tripleta {
@@ -79,7 +80,7 @@ public class Tripleta {
 				if (datos[i][0] == datos[i - 1][0]) {
 					sumFila += datos[i][2];
 				} else {
-					output += "Suma Fila " + datos[i -1][0] + ": " + sumFila + "\n";
+					output += "Suma Fila " + datos[i - 1][0] + ": " + sumFila + "\n";
 					sumFila = datos[i][2];
 				}
 
@@ -89,6 +90,39 @@ public class Tripleta {
 
 			}
 
+		}
+
+		return output;
+	}
+
+	public String sumCols() {
+		int numDatos = datos[0][2];
+		String output = "";
+		int sumCol = 0;
+		ArrayList<Integer> colsSumed = new ArrayList<>();
+		String[] orderedOutput = new String[datos[0][1]];
+
+		for (int i = 1; i <= numDatos; i++) {
+
+			if (!colsSumed.contains(datos[i][1])) {
+				sumCol += datos[i][2];
+				for (int j = i + 1; j <= numDatos; j++) {
+					if (datos[i][1] == datos[j][1]) {
+						sumCol += datos[j][2];
+					}
+				}
+
+				orderedOutput[datos[i][1]] = "Suma Columna " + datos[i][1] + ": " + sumCol;
+				sumCol = 0;
+				colsSumed.add(datos[i][1]);
+			}
+
+		}
+		
+		for(int i = 0; i < orderedOutput.length; i++) {
+			if(orderedOutput[i] != null) {
+				output+= orderedOutput[i] + "\n";
+			}
 		}
 
 		return output;

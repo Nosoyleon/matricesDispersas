@@ -102,6 +102,11 @@ public class Inicio {
 				System.out.println(mainTripleta.sumRows());
 				break;
 			}
+			
+			case SUMAR_COLUMNAS: {
+				System.out.println(mainTripleta.sumCols());
+				break;
+			}
 
 			case EXIT: {
 				System.out.println("Menú Anteior!");
