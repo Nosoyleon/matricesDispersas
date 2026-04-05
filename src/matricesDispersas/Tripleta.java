@@ -13,6 +13,32 @@ public class Tripleta {
 		datos[0][2] = numDatos;
 	}
 
+	public int[][] getDatos() {
+		return datos;
+	}
+	
+	public int getRowsCount() {
+		return datos[0][0];
+	}
+	
+	public int getColsCount() {
+		return datos[0][1];
+	}
+	
+	public int getNumDatos() {
+		return datos[0][2];
+	}
+	
+	public void setDato(int i, int row, int col, int dato) {
+		datos[i][0] = row;
+		datos[i][1] = col;
+		datos[i][2] = dato;
+	}
+	
+	public void setDatos(int[][] newDatos) {
+		datos = newDatos;
+	}
+
 	public void fillTripleta() {
 		int rows = datos[0][0];
 		int cols = datos[0][1];
@@ -118,17 +144,17 @@ public class Tripleta {
 			}
 
 		}
-		
-		for(int i = 0; i < orderedOutput.length; i++) {
-			if(orderedOutput[i] != null) {
-				output+= orderedOutput[i] + "\n";
+
+		for (int i = 0; i < orderedOutput.length; i++) {
+			if (orderedOutput[i] != null) {
+				output += orderedOutput[i] + "\n";
 			}
 		}
 
 		return output;
 	}
 
-	private void orderMatriz() {
+	public void orderMatriz() {
 		Arrays.sort(datos, 1, datos.length, (a, b) -> {
 			if (a[0] != b[0]) {
 				return Integer.compare(a[0], b[0]); // sort by column 0 first
