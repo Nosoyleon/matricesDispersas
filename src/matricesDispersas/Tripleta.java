@@ -2,6 +2,7 @@ package matricesDispersas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Tripleta {
 	private int datos[][];
@@ -156,6 +157,70 @@ public class Tripleta {
 		}
 
 		return output;
+	}
+	
+	public void insertDato(Scanner scanner) {
+		System.out.println("Fila:");
+		int insertRow = scanner.nextInt();
+		System.out.println("Columna:");
+		int insertCol = scanner.nextInt();
+		System.out.println("Dato:");
+		int insertDato = scanner.nextInt();
+
+		boolean cordExist = false;
+
+		for (int i = 1; i <= getNumDatos(); i++) {
+			int currentRow = getDatos()[i][0];
+			int currentCol = getDatos()[i][1];
+			int currentDato = getDatos()[i][2];
+
+			if (insertRow == currentRow && insertCol == currentCol) {
+				// Existe la coordenada con dato
+				// Sumar o reemplazar?
+				System.out.println("Dato actual: " + currentDato + ", desea sumar (1) o Reemplazar (2)?");
+				int decision = scanner.nextInt();
+
+				if (decision == 1) {
+					setDato(i, currentRow, currentCol, currentDato + insertDato);
+				} else if (decision == 2) {
+					setDato(i, currentRow, currentCol, insertDato);
+				} else {
+					System.out.println("Saliendo de insersion.");
+				}
+
+				cordExist = true;
+			}
+		}
+
+		if (!cordExist) {
+			// Si no existe, puede o no estar en el rango.
+			// Redimensionar a mayor fila, mayor columna, incrementar numDatos
+			int maxRows = getRowsCount() - 1 > insertRow ? getRowsCount()
+					: insertRow + 1;
+			int maxCols = getColsCount() - 1 > insertCol ? getColsCount()
+					: insertCol + 1;
+			int newNumDatos = getNumDatos() + 1;
+			int[][] newDatos = new int[newNumDatos + 1][3];
+			newDatos[0][0] = maxRows;
+			newDatos[0][1] = maxCols;
+			newDatos[0][2] = newNumDatos;
+
+			for (int i = 1; i <= newNumDatos; i++) {
+				if (i <= getNumDatos()) {
+					newDatos[i][0] = getDatos()[i][0];
+					newDatos[i][1] = getDatos()[i][1];
+					newDatos[i][2] = getDatos()[i][2];
+				} else {
+					newDatos[i][0] = insertRow;
+					newDatos[i][1] = insertCol;
+					newDatos[i][2] = insertDato;
+				}
+
+			}
+			setDatos(newDatos);
+			orderMatriz();
+
+		}
 	}
 
 	public void deleteByDato(int dato) {
