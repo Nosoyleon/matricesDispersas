@@ -52,8 +52,8 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Eliminar dato
   - [x] Por cord
   - [x] por dato
-- [ ] Sumar matrices
-- [ ] multiplicar matrices
+- [x] Sumar matrices
+- [x] multiplicar matrices
 
 ### 3. Forma 2
 
