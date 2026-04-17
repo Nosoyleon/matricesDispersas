@@ -290,11 +290,53 @@ public class Inicio {
 			}
 
 			case SUMAR_MATRICES: {
+				System.out.println("###");
+				System.out.println("Datos de la Matriz a sumar");
+				System.out.println("Número de Filas:");
+				int rows = scanner.nextInt();
+				System.out.println("Número de Columnas:");
+				int cols = scanner.nextInt();
+				System.out.println("Cantidad de datos diferentes de 0:");
+				int numDatos = scanner.nextInt();
+
+				int[][] newMatrix = genateRandomMatrix(rows, cols, numDatos);
+				Forma1 formaToSum = new Forma1();
+				formaToSum.createMatriz(newMatrix);
+
+				System.out.println("Matris 1");
+				System.out.println(mainForma1.showForma());
+				System.out.println("Matris 2");
+				System.out.println(formaToSum.showForma());
+
+				mainForma1.sumMatrix(formaToSum);
+				System.out.println("Resultado suma");
+				System.out.println(mainForma1.showForma());
 
 				break;
 			}
 
 			case MULTIPLICAR_MATRICES: {
+				System.out.println("###");
+				System.out.println("Datos de la Matriz a multiplicar");
+				System.out.println("Número de Filas:");
+				int rows = scanner.nextInt();
+				System.out.println("Número de Columnas:");
+				int cols = scanner.nextInt();
+				System.out.println("Cantidad de datos diferentes de 0:");
+				int numDatos = scanner.nextInt();
+
+				int[][] newMatrix = genateRandomMatrix(rows, cols, numDatos);
+				Forma1 formaToMultiply = new Forma1();
+				formaToMultiply.createMatriz(newMatrix);
+
+				System.out.println("Matris 1");
+				System.out.println(mainForma1.showForma());
+				System.out.println("Matris 2");
+				System.out.println(formaToMultiply.showForma());
+
+				mainForma1.multiplyMatrix(formaToMultiply);
+				System.out.println("Resultado multiplicación");
+				System.out.println(mainForma1.showForma());
 
 				break;
 			}

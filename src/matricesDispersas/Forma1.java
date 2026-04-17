@@ -284,6 +284,53 @@ public class Forma1 {
 		createMatriz(rebuiltMatrix);
 	}
 
+	public void sumMatrix(Forma1 formaToSum) {
+		if (mainHead == null || formaToSum == null || formaToSum.getMainHead() == null) {
+			return;
+		}
+
+		int rows = mainHead.getFila() > formaToSum.getMainHead().getFila() ? mainHead.getFila()
+				: formaToSum.getMainHead().getFila();
+		int cols = mainHead.getColumna() > formaToSum.getMainHead().getColumna() ? mainHead.getColumna()
+				: formaToSum.getMainHead().getColumna();
+
+		int[][] matrizA = toDenseMatrix(rows, cols);
+		int[][] matrizB = formaToSum.toDenseMatrix(rows, cols);
+		int[][] resultMatrix = new int[rows][cols];
+
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				resultMatrix[row][col] = matrizA[row][col] + matrizB[row][col];
+			}
+		}
+
+		createMatriz(resultMatrix);
+	}
+
+	public void multiplyMatrix(Forma1 formaToMultiply) {
+		if (mainHead == null || formaToMultiply == null || formaToMultiply.getMainHead() == null) {
+			return;
+		}
+
+		int rows = mainHead.getFila() > formaToMultiply.getMainHead().getFila() ? mainHead.getFila()
+				: formaToMultiply.getMainHead().getFila();
+		int cols = mainHead.getColumna() > formaToMultiply.getMainHead().getColumna() ? mainHead.getColumna()
+				: formaToMultiply.getMainHead().getColumna();
+
+		int[][] matrizA = toDenseMatrix(rows, cols);
+		int[][] matrizB = formaToMultiply.toDenseMatrix(rows, cols);
+		int[][] resultMatrix = new int[rows][cols];
+
+		// Coordinate-wise multiplication (not matrix multiplication).
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				resultMatrix[row][col] = matrizA[row][col] * matrizB[row][col];
+			}
+		}
+
+		createMatriz(resultMatrix);
+	}
+
 	private int[][] toDenseMatrix(int rows, int cols) {
 		int[][] denseMatrix = new int[rows][cols];
 
