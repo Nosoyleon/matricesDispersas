@@ -1,20 +1,23 @@
 # Matrices dispersas en 3 formas 🥶
 
-## Generar matriz  
-*Datos vacios se consideran en 0, en la matriz dispersa no aparece*
+## Generar matriz
+
+_Datos vacios se consideran en 0, en la matriz dispersa no aparece_
+
 > Metodo random para generar la matris dispersa ordenada
- 
+
 ## Funcionalidades para práctica
 
 ### 1. Tripleta
+
 En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 
 | #Filas | #Columnas | #Datos |
-| -| - | - |
-| Fila | Columna | Dato |
-| Fila | Columna | Dato |
-| Fila | Columna | Dato |
-| ... | ... | ... |
+| ------ | --------- | ------ |
+| Fila   | Columna   | Dato   |
+| Fila   | Columna   | Dato   |
+| Fila   | Columna   | Dato   |
+| ...    | ...       | ...    |
 
 ---
 
@@ -24,16 +27,17 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Suma de columnas
 - [x] Insertar dato
 - [x] Eliminar dato
-	- [x] Por cord
-	- [x] por dato
-- [ ] Sumar matrices
-- [ ] multiplicar matrices
+  - [x] Por cord
+  - [x] por dato
+- [x] Sumar matrices
+- [x] multiplicar matrices
 
 ### 2. Forma 1
+
 1. Generar registros cabeza liga inicial
 2. Por cada registro cabeza generar fila con dato creando liga de fila
-3. por cada registro cabeza generar liga de columna 
-   
+3. por cada registro cabeza generar liga de columna
+
 **Listas ligadas Circulares**
 
 <img width="2124" height="2810" alt="image" src="https://github.com/user-attachments/assets/3f283b12-aeef-4f97-963f-6f14b721adf2" />
@@ -46,23 +50,24 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [ ] Suma de columnas
 - [ ] Insertar dato
 - [ ] Eliminar dato
-	- [ ] Por cord
-	- [ ] por dato
+  - [ ] Por cord
+  - [ ] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
 ### 3. Forma 2
+
 - [ ] Crear
 - [ ] Mostrar forma
 - [ ] Suma de filas
 - [ ] Suma de columnas
 - [ ] Insertar dato
 - [ ] Eliminar dato
-	- [ ] Por cord
-	- [ ] por dato
+  - [ ] Por cord
+  - [ ] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 
 ### Operar con matrices de distintas formas
-- [ ] **Tripleta*Forma2 = Forma1**
 
+- [ ] **Tripleta\*Forma2 = Forma1**

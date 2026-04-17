@@ -8,7 +8,7 @@ import enums.MatrizOption;
 public class Inicio {
 
 	private static Tripleta mainTripleta;
-//	private static Forma1 mainForma1;
+	private static Forma1 mainForma1;
 
 	public static void main(String[] args) {
 
@@ -35,7 +35,7 @@ public class Inicio {
 
 			case FORMA_1: {
 
-				System.out.println("FORMA 1");
+				caseForma1(menu, scanner);
 
 				break;
 			}
@@ -203,6 +203,122 @@ public class Inicio {
 
 		} while (userInput != MatrizOption.EXIT);
 
+	}
+
+	public static void caseForma1(Menu menu, Scanner scanner) {
+		MatrizOption userInput;
+
+		do {
+			System.out.println("Menu - FORMA 1");
+			if (mainForma1 != null) {
+				System.out.println(mainForma1.showSummary());
+				userInput = menu.showMatrizMenu();
+			} else {
+				userInput = MatrizOption.NEW;
+			}
+
+			switch (userInput) {
+			case NEW: {
+				System.out.println("###");
+				System.out.println("Datos de la nueva Matriz");
+				System.out.println("Número de Filas:");
+				int rows = scanner.nextInt();
+				System.out.println("Número de Columnas:");
+				int cols = scanner.nextInt();
+				System.out.println("Cantidad de datos diferentes de 0:");
+				int numDatos = scanner.nextInt();
+
+				int[][] newMatrix = genateRandomMatrix(rows, cols, numDatos);
+				Forma1 newForma1 = new Forma1();
+				newForma1.createMatriz(newMatrix);
+
+				mainForma1 = newForma1;
+
+				break;
+			}
+
+			case SHOW_FORMA: {
+				System.out.println(mainForma1.showForma());
+
+				break;
+			}
+
+			case SUMAR_FILAS: {
+
+				break;
+			}
+
+			case SUMAR_COLUMNAS: {
+
+				break;
+			}
+
+			case INSERT_DATO: {
+
+				break;
+
+			}
+
+			case DELETE_DATO: {
+
+				break;
+			}
+
+			case SUMAR_MATRICES: {
+
+				break;
+			}
+
+			case MULTIPLICAR_MATRICES: {
+
+				break;
+			}
+
+			case EXIT: {
+				System.out.println("Menú Anteior!");
+				break;
+			}
+			default:
+				System.out.println("Option Invalida");
+			}
+
+		} while (userInput != MatrizOption.EXIT);
+	}
+
+	public static int[][] genateRandomMatrix(int rows, int cols, int numDatos) {
+		if (rows <= 0 || cols <= 0) {
+			return new int[0][0];
+		}
+
+		int[][] matrix = new int[rows][cols];
+		int maxDatos = rows * cols;
+		int targetDatos = numDatos;
+
+		if (targetDatos < 1) {
+			targetDatos = 1;
+		}
+
+		if (targetDatos > maxDatos) {
+			targetDatos = maxDatos;
+		}
+
+		int inserted = 0;
+		while (inserted < targetDatos) {
+			int randomRow = (int) (Math.random() * rows);
+			int randomCol = (int) (Math.random() * cols);
+
+			if (matrix[randomRow][randomCol] == 0) {
+				int randomValue;
+				do {
+					randomValue = (int) (Math.random() * 41) - 20;
+				} while (randomValue == 0);
+
+				matrix[randomRow][randomCol] = randomValue;
+				inserted++;
+			}
+		}
+
+		return matrix;
 	}
 
 }
