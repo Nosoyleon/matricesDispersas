@@ -51,6 +51,20 @@ public class Forma1 {
 		}
 
 		previous.setLiga(mainHeadNode);
+		initializeHeadSelfLinks();
+	}
+
+	private void initializeHeadSelfLinks() {
+		if (mainHead == null) {
+			return;
+		}
+
+		Nodo headNode = mainHead.getLiga();
+		while (headNode != mainHead) {
+			headNode.setLigaFila(headNode);
+			headNode.setLigaColumna(headNode);
+			headNode = headNode.getLiga();
+		}
 	}
 
 	public void phaseTwo(int[][] matriz) {
@@ -204,31 +218,34 @@ public class Forma1 {
 			return;
 		}
 
-		int rows = mainHead.getFila();
-		int cols = mainHead.getColumna();
-		int newRows = rows > insertRow ? rows : insertRow + 1;
-		int newCols = cols > insertCol ? cols : insertCol + 1;
+		expandTo(insertRow + 1, insertCol + 1);
 
-		int[][] rebuiltMatrix = toDenseMatrix(newRows, newCols);
-		int currentValue = rebuiltMatrix[insertRow][insertCol];
+		Nodo existingNode = findNodeByCoordinate(insertRow, insertCol);
 
-		if (currentValue != 0) {
-			System.out.println("Dato actual: " + currentValue + ", desea sumar (1) o Reemplazar (2)?");
+		if (existingNode != null) {
+			System.out.println("Dato actual: " + existingNode.getDato() + ", desea sumar (1) o Reemplazar (2)?");
 			int decision = scanner.nextInt();
+			int newValue;
 
 			if (decision == 1) {
-				rebuiltMatrix[insertRow][insertCol] = currentValue + insertValue;
+				newValue = existingNode.getDato() + insertValue;
 			} else if (decision == 2) {
-				rebuiltMatrix[insertRow][insertCol] = insertValue;
+				newValue = insertValue;
 			} else {
 				System.out.println("Saliendo de inserción.");
 				return;
 			}
-		} else {
-			rebuiltMatrix[insertRow][insertCol] = insertValue;
-		}
 
-		createMatriz(rebuiltMatrix);
+			if (newValue == 0) {
+				removeNodeByCoordinate(insertRow, insertCol);
+			} else {
+				existingNode.setDato(newValue);
+			}
+		} else {
+			if (insertValue != 0) {
+				insertNodeInStructure(insertRow, insertCol, insertValue);
+			}
+		}
 	}
 
 	public void deleteByCord(int row, int col) {
@@ -245,15 +262,9 @@ public class Forma1 {
 			return;
 		}
 
-		int[][] rebuiltMatrix = toDenseMatrix(rows, cols);
-
-		if (rebuiltMatrix[row][col] == 0) {
+		if (!removeNodeByCoordinate(row, col)) {
 			System.out.println("No se encontró la coordenada");
-			return;
 		}
-
-		rebuiltMatrix[row][col] = 0;
-		createMatriz(rebuiltMatrix);
 	}
 
 	public void deleteByDato(int dato) {
@@ -262,26 +273,31 @@ public class Forma1 {
 			return;
 		}
 
-		int rows = mainHead.getFila();
-		int cols = mainHead.getColumna();
-		int[][] rebuiltMatrix = toDenseMatrix(rows, cols);
 		boolean found = false;
+		Nodo rowHead = mainHead.getLiga();
 
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				if (rebuiltMatrix[row][col] == dato) {
-					rebuiltMatrix[row][col] = 0;
+		while (rowHead != mainHead) {
+			Nodo previousNode = rowHead;
+			Nodo currentNode = rowHead.getLigaFila();
+
+			while (currentNode != rowHead) {
+				if (currentNode.getDato() == dato) {
+					previousNode.setLigaFila(currentNode.getLigaFila());
+					unlinkNodeFromColumn(currentNode);
+					currentNode = previousNode.getLigaFila();
 					found = true;
+				} else {
+					previousNode = currentNode;
+					currentNode = currentNode.getLigaFila();
 				}
 			}
+
+			rowHead = rowHead.getLiga();
 		}
 
 		if (!found) {
 			System.out.println("No se encontró la coordenada");
-			return;
 		}
-
-		createMatriz(rebuiltMatrix);
 	}
 
 	public void sumMatrix(Forma1 formaToSum) {
@@ -294,17 +310,41 @@ public class Forma1 {
 		int cols = mainHead.getColumna() > formaToSum.getMainHead().getColumna() ? mainHead.getColumna()
 				: formaToSum.getMainHead().getColumna();
 
-		int[][] matrizA = toDenseMatrix(rows, cols);
-		int[][] matrizB = formaToSum.toDenseMatrix(rows, cols);
-		int[][] resultMatrix = new int[rows][cols];
+		Forma1 result = new Forma1();
+		result.phaseOne(rows, cols);
+		result.initializeHeadSelfLinks();
+		copyAllNodesTo(result, mainHead);
 
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				resultMatrix[row][col] = matrizA[row][col] + matrizB[row][col];
+		Nodo rowHead = formaToSum.getMainHead().getLiga();
+		while (rowHead != formaToSum.getMainHead()) {
+			Nodo dataNode = rowHead.getLigaFila();
+
+			while (dataNode != rowHead) {
+				int row = dataNode.getFila();
+				int col = dataNode.getColumna();
+				int value = dataNode.getDato();
+
+				Nodo existingNode = result.findNodeByCoordinate(row, col);
+
+				if (existingNode == null) {
+					result.insertNodeInStructure(row, col, value);
+				} else {
+					int newValue = existingNode.getDato() + value;
+
+					if (newValue == 0) {
+						result.removeNodeByCoordinate(row, col);
+					} else {
+						existingNode.setDato(newValue);
+					}
+				}
+
+				dataNode = dataNode.getLigaFila();
 			}
+
+			rowHead = rowHead.getLiga();
 		}
 
-		createMatriz(resultMatrix);
+		setMainHead(result.getMainHead());
 	}
 
 	public void multiplyMatrix(Forma1 formaToMultiply) {
@@ -317,38 +357,24 @@ public class Forma1 {
 		int cols = mainHead.getColumna() > formaToMultiply.getMainHead().getColumna() ? mainHead.getColumna()
 				: formaToMultiply.getMainHead().getColumna();
 
-		int[][] matrizA = toDenseMatrix(rows, cols);
-		int[][] matrizB = formaToMultiply.toDenseMatrix(rows, cols);
-		int[][] resultMatrix = new int[rows][cols];
-
-		// Coordinate-wise multiplication (not matrix multiplication).
-		for (int row = 0; row < rows; row++) {
-			for (int col = 0; col < cols; col++) {
-				resultMatrix[row][col] = matrizA[row][col] * matrizB[row][col];
-			}
-		}
-
-		createMatriz(resultMatrix);
-	}
-
-	private int[][] toDenseMatrix(int rows, int cols) {
-		int[][] denseMatrix = new int[rows][cols];
-
-		if (mainHead == null) {
-			return denseMatrix;
-		}
+		Forma1 result = new Forma1();
+		result.phaseOne(rows, cols);
+		result.initializeHeadSelfLinks();
 
 		Nodo rowHead = mainHead.getLiga();
-
 		while (rowHead != mainHead) {
 			Nodo dataNode = rowHead.getLigaFila();
 
 			while (dataNode != rowHead) {
 				int row = dataNode.getFila();
 				int col = dataNode.getColumna();
+				Nodo otherNode = formaToMultiply.findNodeByCoordinate(row, col);
 
-				if (row < rows && col < cols) {
-					denseMatrix[row][col] = dataNode.getDato();
+				if (otherNode != null) {
+					int product = dataNode.getDato() * otherNode.getDato();
+					if (product != 0) {
+						result.insertNodeInStructure(row, col, product);
+					}
 				}
 
 				dataNode = dataNode.getLigaFila();
@@ -357,7 +383,175 @@ public class Forma1 {
 			rowHead = rowHead.getLiga();
 		}
 
-		return denseMatrix;
+		setMainHead(result.getMainHead());
+	}
+
+	private void expandTo(int minRows, int minCols) {
+		if (mainHead == null) {
+			phaseOne(minRows, minCols);
+			initializeHeadSelfLinks();
+			return;
+		}
+
+		int currentRows = mainHead.getFila();
+		int currentCols = mainHead.getColumna();
+
+		if (minRows <= currentRows && minCols <= currentCols) {
+			return;
+		}
+
+		int rows = minRows > currentRows ? minRows : currentRows;
+		int cols = minCols > currentCols ? minCols : currentCols;
+		Nodo oldMain = mainHead;
+
+		Forma1 expanded = new Forma1();
+		expanded.phaseOne(rows, cols);
+		expanded.initializeHeadSelfLinks();
+		copyAllNodesTo(expanded, oldMain);
+		setMainHead(expanded.getMainHead());
+	}
+
+	private void copyAllNodesTo(Forma1 target, Nodo sourceMain) {
+		if (target == null || sourceMain == null) {
+			return;
+		}
+
+		Nodo rowHead = sourceMain.getLiga();
+		while (rowHead != sourceMain) {
+			Nodo dataNode = rowHead.getLigaFila();
+
+			while (dataNode != rowHead) {
+				target.insertNodeInStructure(dataNode.getFila(), dataNode.getColumna(), dataNode.getDato());
+				dataNode = dataNode.getLigaFila();
+			}
+
+			rowHead = rowHead.getLiga();
+		}
+	}
+
+	private Nodo getHeadNode(int index) {
+		if (mainHead == null || index < 0) {
+			return null;
+		}
+
+		Nodo headNode = mainHead.getLiga();
+		int current = 0;
+
+		while (headNode != mainHead && current < index) {
+			headNode = headNode.getLiga();
+			current++;
+		}
+
+		if (headNode == mainHead) {
+			return null;
+		}
+
+		return headNode;
+	}
+
+	private Nodo findNodeByCoordinate(int row, int col) {
+		if (mainHead == null || row < 0 || col < 0) {
+			return null;
+		}
+
+		if (row >= mainHead.getFila() || col >= mainHead.getColumna()) {
+			return null;
+		}
+
+		Nodo rowHead = getHeadNode(row);
+		if (rowHead == null) {
+			return null;
+		}
+
+		Nodo currentNode = rowHead.getLigaFila();
+		while (currentNode != rowHead) {
+			if (currentNode.getColumna() == col) {
+				return currentNode;
+			}
+			currentNode = currentNode.getLigaFila();
+		}
+
+		return null;
+	}
+
+	private void insertNodeInStructure(int row, int col, int value) {
+		if (value == 0) {
+			return;
+		}
+
+		Nodo rowHead = getHeadNode(row);
+		Nodo colHead = getHeadNode(col);
+
+		if (rowHead == null || colHead == null) {
+			return;
+		}
+
+		Nodo prevRow = rowHead;
+		Nodo currentRow = rowHead.getLigaFila();
+		while (currentRow != rowHead && currentRow.getColumna() < col) {
+			prevRow = currentRow;
+			currentRow = currentRow.getLigaFila();
+		}
+
+		Nodo prevCol = colHead;
+		Nodo currentCol = colHead.getLigaColumna();
+		while (currentCol != colHead && currentCol.getFila() < row) {
+			prevCol = currentCol;
+			currentCol = currentCol.getLigaColumna();
+		}
+
+		Nodo newNode = new Nodo(row, col, value);
+		newNode.setLigaFila(currentRow);
+		prevRow.setLigaFila(newNode);
+
+		newNode.setLigaColumna(currentCol);
+		prevCol.setLigaColumna(newNode);
+	}
+
+	private boolean removeNodeByCoordinate(int row, int col) {
+		Nodo rowHead = getHeadNode(row);
+		if (rowHead == null) {
+			return false;
+		}
+
+		Nodo prevRow = rowHead;
+		Nodo currentRow = rowHead.getLigaFila();
+
+		while (currentRow != rowHead && currentRow.getColumna() != col) {
+			prevRow = currentRow;
+			currentRow = currentRow.getLigaFila();
+		}
+
+		if (currentRow == rowHead) {
+			return false;
+		}
+
+		prevRow.setLigaFila(currentRow.getLigaFila());
+		unlinkNodeFromColumn(currentRow);
+		return true;
+	}
+
+	private void unlinkNodeFromColumn(Nodo nodeToRemove) {
+		if (nodeToRemove == null) {
+			return;
+		}
+
+		Nodo colHead = getHeadNode(nodeToRemove.getColumna());
+		if (colHead == null) {
+			return;
+		}
+
+		Nodo prevCol = colHead;
+		Nodo currentCol = colHead.getLigaColumna();
+
+		while (currentCol != colHead && currentCol != nodeToRemove) {
+			prevCol = currentCol;
+			currentCol = currentCol.getLigaColumna();
+		}
+
+		if (currentCol == nodeToRemove) {
+			prevCol.setLigaColumna(nodeToRemove.getLigaColumna());
+		}
 	}
 
 	public String showForma() {
