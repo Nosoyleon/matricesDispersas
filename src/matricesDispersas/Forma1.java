@@ -2,30 +2,30 @@ package matricesDispersas;
 
 public class Forma1 {
 
-	private Nodo head;
+	private Nodo mainHead;
 
 	public Forma1() {
 		super();
-		this.head = null;
+		this.mainHead = null;
 	}
 
-	public Nodo getHead() {
-		return head;
+	public Nodo getMainHead() {
+		return mainHead;
 	}
 
-	public void setHead(Nodo head) {
-		this.head = head;
+	public void setMainHead(Nodo mainHead) {
+		this.mainHead = mainHead;
 	}
 
 	public void createMatriz(int matriz[][]) {
 		if (matriz == null || matriz.length == 0 || matriz[0].length == 0) {
-			setHead(null);
+			setMainHead(null);
 			return;
 		}
 
 		phaseOne(matriz.length, matriz[0].length);
-		phaseTwo();
-		phaseThree();
+		phaseTwo(matriz);
+		phaseThree(matriz);
 
 	}
 
@@ -33,7 +33,7 @@ public class Forma1 {
 		int major = rows > columns ? rows : columns;
 
 		Nodo mainHeadNode = new Nodo(rows, columns, 0);
-		setHead(mainHeadNode);
+		setMainHead(mainHeadNode);
 
 		if (major == 0) {
 			mainHeadNode.setLiga(mainHeadNode);
@@ -51,16 +51,82 @@ public class Forma1 {
 		previous.setLiga(mainHeadNode);
 	}
 
-	public void phaseTwo() {
+	public void phaseTwo(int[][] matriz) {
+		if (mainHead == null || matriz == null || matriz.length == 0 || matriz[0].length == 0) {
+			return;
+		}
+
+		Nodo indexNode = mainHead.getLiga();
+
+		while (indexNode != mainHead) {
+			int currentRow = indexNode.getFila();
+			Nodo previousNode = indexNode;
+
+			if (currentRow < matriz.length) {
+				for (int col = 0; col < matriz[0].length; col++) {
+					int matrixValue = matriz[currentRow][col];
+
+					if (matrixValue != 0) {
+						Nodo dataNode = new Nodo(currentRow, col, matrixValue);
+						previousNode.setLigaFila(dataNode);
+						previousNode = dataNode;
+					}
+				}
+			}
+
+			previousNode.setLigaFila(indexNode);
+			indexNode = indexNode.getLiga();
+		}
 
 	}
 
-	public void phaseThree() {
+	public void phaseThree(int[][] matriz) {
+		if (mainHead == null || matriz == null || matriz.length == 0 || matriz[0].length == 0) {
+			return;
+		}
 
+		Nodo columnHead = mainHead.getLiga();
+
+		while (columnHead != mainHead) {
+			Nodo previousColumnNode = columnHead;
+			Nodo rowHead = mainHead.getLiga();
+
+			while (rowHead != mainHead) {
+				Nodo dataNode = findDataNodeByColumn(rowHead, columnHead.getColumna());
+
+				if (dataNode != null) {
+					previousColumnNode.setLigaColumna(dataNode);
+					previousColumnNode = dataNode;
+				}
+
+				rowHead = rowHead.getLiga();
+			}
+
+			previousColumnNode.setLigaColumna(columnHead);
+			columnHead = columnHead.getLiga();
+		}
+
+	}
+
+	private Nodo findDataNodeByColumn(Nodo rowHead, int targetColumn) {
+		if (rowHead == null) {
+			return null;
+		}
+
+		Nodo currentNode = rowHead.getLigaFila();
+
+		while (currentNode != rowHead) {
+			if (currentNode.getColumna() == targetColumn) {
+				return currentNode;
+			}
+			currentNode = currentNode.getLigaFila();
+		}
+
+		return null;
 	}
 
 	public String showSummary() {
-		return "Info: filas(" + head.getFila() + ") | Columnas(" + head.getColumna() + ")";
+		return "Info: filas(" + mainHead.getFila() + ") | Columnas(" + mainHead.getColumna() + ")";
 	}
 
 	public String showForma() {
@@ -69,17 +135,31 @@ public class Forma1 {
 		output += "## FORMA 1 ##\n";
 		output += "----------\n";
 
-		Nodo indexNode = head;
+		Nodo indexNode = mainHead;
 
 		do {
-			if (indexNode == head) {
-				output += "Punta | (Filas: " + indexNode.getFila() + " , Columnas: " + indexNode.getFila() + "\n";
+			if (indexNode == mainHead) {
+				output += "Punta: " + indexNode.toString().split("@")[1] + " | Filas: " + indexNode.getFila()
+						+ " , Columnas: " + indexNode.getColumna() + "\n";
 			} else {
-				output += "Nodo | (Fila: " + indexNode.getFila() + " , Columna: " + indexNode.getFila()+ "\n";
+				output += "Nodo Cabeza: " + indexNode.toString().split("@")[1] + " | Fila: " + indexNode.getFila()
+						+ " , Columna: " + indexNode.getColumna() + " ,LigaFila: "
+						+ indexNode.getLigaFila().toString().split("@")[1] + " ,LigaColumna: "
+						+ indexNode.getLigaColumna().toString().split("@")[1] + "\n";
+				Nodo dataNode = indexNode.getLigaFila();
+
+				while (dataNode != indexNode) {
+					output += "-- Nodo: " + dataNode.toString().split("@")[1] + " | Fila: " + dataNode.getFila() + " ,Columna: "
+							+ dataNode.getColumna() + " ,Dato: " + dataNode.getDato() + " ,LigaFila: "
+							+ dataNode.getLigaFila().toString().split("@")[1] + " ,LigaColumna: "
+							+ dataNode.getLigaColumna().toString().split("@")[1] + "\n";
+					dataNode = dataNode.getLigaFila();
+				}
+
 			}
 			indexNode = indexNode.getLiga();
 
-		} while (indexNode != head);
+		} while (indexNode != mainHead);
 
 		return output;
 	}
