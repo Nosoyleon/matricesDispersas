@@ -256,6 +256,7 @@ public class Inicio {
 			}
 
 			case INSERT_DATO: {
+				mainForma1.insertDato(scanner);
 
 				break;
 

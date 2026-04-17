@@ -1,5 +1,7 @@
 package matricesDispersas;
 
+import java.util.Scanner;
+
 public class Forma1 {
 
 	private Nodo mainHead;
@@ -183,6 +185,79 @@ public class Forma1 {
 		}
 
 		return output;
+	}
+
+	public void insertDato(Scanner scanner) {
+		if (scanner == null || mainHead == null) {
+			return;
+		}
+
+		System.out.println("Fila:");
+		int insertRow = scanner.nextInt();
+		System.out.println("Columna:");
+		int insertCol = scanner.nextInt();
+		System.out.println("Dato:");
+		int insertValue = scanner.nextInt();
+
+		if (insertRow < 0 || insertCol < 0) {
+			System.out.println("Coordenadas inválidas.");
+			return;
+		}
+
+		int rows = mainHead.getFila();
+		int cols = mainHead.getColumna();
+		int newRows = rows > insertRow ? rows : insertRow + 1;
+		int newCols = cols > insertCol ? cols : insertCol + 1;
+
+		int[][] rebuiltMatrix = toDenseMatrix(newRows, newCols);
+		int currentValue = rebuiltMatrix[insertRow][insertCol];
+
+		if (currentValue != 0) {
+			System.out.println("Dato actual: " + currentValue + ", desea sumar (1) o Reemplazar (2)?");
+			int decision = scanner.nextInt();
+
+			if (decision == 1) {
+				rebuiltMatrix[insertRow][insertCol] = currentValue + insertValue;
+			} else if (decision == 2) {
+				rebuiltMatrix[insertRow][insertCol] = insertValue;
+			} else {
+				System.out.println("Saliendo de inserción.");
+				return;
+			}
+		} else {
+			rebuiltMatrix[insertRow][insertCol] = insertValue;
+		}
+
+		createMatriz(rebuiltMatrix);
+	}
+
+	private int[][] toDenseMatrix(int rows, int cols) {
+		int[][] denseMatrix = new int[rows][cols];
+
+		if (mainHead == null) {
+			return denseMatrix;
+		}
+
+		Nodo rowHead = mainHead.getLiga();
+
+		while (rowHead != mainHead) {
+			Nodo dataNode = rowHead.getLigaFila();
+
+			while (dataNode != rowHead) {
+				int row = dataNode.getFila();
+				int col = dataNode.getColumna();
+
+				if (row < rows && col < cols) {
+					denseMatrix[row][col] = dataNode.getDato();
+				}
+
+				dataNode = dataNode.getLigaFila();
+			}
+
+			rowHead = rowHead.getLiga();
+		}
+
+		return denseMatrix;
 	}
 
 	public String showForma() {

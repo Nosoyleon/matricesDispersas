@@ -44,10 +44,10 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 
 ---
 
-- [ ] Crear
-- [ ] Mostrar forma
-- [ ] Suma de filas
-- [ ] Suma de columnas
+- [x] Crear
+- [x] Mostrar forma
+- [x] Suma de filas
+- [x] Suma de columnas
 - [ ] Insertar dato
 - [ ] Eliminar dato
   - [ ] Por cord
