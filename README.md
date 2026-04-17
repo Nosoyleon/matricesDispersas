@@ -48,10 +48,10 @@ En la posicion 0 es la información de la matriz **#Filas,#Columnas,#Datos**
 - [x] Mostrar forma
 - [x] Suma de filas
 - [x] Suma de columnas
-- [ ] Insertar dato
-- [ ] Eliminar dato
-  - [ ] Por cord
-  - [ ] por dato
+- [x] Insertar dato
+- [x] Eliminar dato
+  - [x] Por cord
+  - [x] por dato
 - [ ] Sumar matrices
 - [ ] multiplicar matrices
 

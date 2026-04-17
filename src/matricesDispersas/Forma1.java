@@ -231,6 +231,59 @@ public class Forma1 {
 		createMatriz(rebuiltMatrix);
 	}
 
+	public void deleteByCord(int row, int col) {
+		if (mainHead == null || row < 0 || col < 0) {
+			System.out.println("No se encontró la coordenada");
+			return;
+		}
+
+		int rows = mainHead.getFila();
+		int cols = mainHead.getColumna();
+
+		if (row >= rows || col >= cols) {
+			System.out.println("No se encontró la coordenada");
+			return;
+		}
+
+		int[][] rebuiltMatrix = toDenseMatrix(rows, cols);
+
+		if (rebuiltMatrix[row][col] == 0) {
+			System.out.println("No se encontró la coordenada");
+			return;
+		}
+
+		rebuiltMatrix[row][col] = 0;
+		createMatriz(rebuiltMatrix);
+	}
+
+	public void deleteByDato(int dato) {
+		if (mainHead == null) {
+			System.out.println("No se encontró la coordenada");
+			return;
+		}
+
+		int rows = mainHead.getFila();
+		int cols = mainHead.getColumna();
+		int[][] rebuiltMatrix = toDenseMatrix(rows, cols);
+		boolean found = false;
+
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				if (rebuiltMatrix[row][col] == dato) {
+					rebuiltMatrix[row][col] = 0;
+					found = true;
+				}
+			}
+		}
+
+		if (!found) {
+			System.out.println("No se encontró la coordenada");
+			return;
+		}
+
+		createMatriz(rebuiltMatrix);
+	}
+
 	private int[][] toDenseMatrix(int rows, int cols) {
 		int[][] denseMatrix = new int[rows][cols];
 
