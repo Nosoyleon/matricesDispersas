@@ -352,6 +352,55 @@ public class Tripleta {
 		orderMatriz();
 	}
 
+	public boolean multiplyMatrix(Tripleta matrizToMultiply) {
+		if (matrizToMultiply == null) {
+			return false;
+		}
+
+		int rows = Math.max(getRowsCount(), matrizToMultiply.getRowsCount());
+		int cols = Math.max(getColsCount(), matrizToMultiply.getColsCount());
+		int maxDatos = getNumDatos();
+		int[][] acumulado = new int[maxDatos + 1][3];
+		acumulado[0][0] = rows;
+		acumulado[0][1] = cols;
+		int acumuladoCount = 0;
+
+		int[][] datosToMultiply = matrizToMultiply.getDatos();
+
+		for (int i = 1; i <= getNumDatos(); i++) {
+			int rowA = datos[i][0];
+			int colA = datos[i][1];
+			int valueA = datos[i][2];
+			boolean found = false;
+			int valueB = 0;
+
+			for (int j = 1; j <= matrizToMultiply.getNumDatos(); j++) {
+				int rowB = datosToMultiply[j][0];
+				int colB = datosToMultiply[j][1];
+
+				if (rowA == rowB && colA == colB) {
+					valueB = datosToMultiply[j][2];
+					found = true;
+				}
+			}
+
+			if (found) {
+				int product = valueA * valueB;
+				if (product != 0) {
+					acumuladoCount++;
+					acumulado[acumuladoCount][0] = rowA;
+					acumulado[acumuladoCount][1] = colA;
+					acumulado[acumuladoCount][2] = product;
+				}
+			}
+		}
+
+		acumulado[0][2] = acumuladoCount;
+		datos = removeZeroValues(acumulado);
+		orderMatriz();
+		return true;
+	}
+
 	public void orderMatriz() {
 		Arrays.sort(datos, 1, datos.length, (a, b) -> {
 			if (a[0] != b[0]) {
