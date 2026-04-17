@@ -129,6 +129,62 @@ public class Forma1 {
 		return "Info: filas(" + mainHead.getFila() + ") | Columnas(" + mainHead.getColumna() + ")";
 	}
 
+	public String sumRows() {
+		if (mainHead == null) {
+			return "";
+		}
+
+		String output = "";
+		int totalRows = mainHead.getFila();
+		Nodo rowHead = mainHead.getLiga();
+
+		while (rowHead != mainHead) {
+			if (rowHead.getFila() < totalRows) {
+				int sumRow = 0;
+				Nodo dataNode = rowHead.getLigaFila();
+
+				while (dataNode != rowHead) {
+					sumRow += dataNode.getDato();
+					dataNode = dataNode.getLigaFila();
+				}
+
+				output += "Suma Fila " + rowHead.getFila() + ": " + sumRow + "\n";
+			}
+
+			rowHead = rowHead.getLiga();
+		}
+
+		return output;
+	}
+
+	public String sumCols() {
+		if (mainHead == null) {
+			return "";
+		}
+
+		String output = "";
+		int totalCols = mainHead.getColumna();
+		Nodo colHead = mainHead.getLiga();
+
+		while (colHead != mainHead) {
+			if (colHead.getColumna() < totalCols) {
+				int sumCol = 0;
+				Nodo dataNode = colHead.getLigaColumna();
+
+				while (dataNode != colHead) {
+					sumCol += dataNode.getDato();
+					dataNode = dataNode.getLigaColumna();
+				}
+
+				output += "Suma Columna " + colHead.getColumna() + ": " + sumCol + "\n";
+			}
+
+			colHead = colHead.getLiga();
+		}
+
+		return output;
+	}
+
 	public String showForma() {
 		String output = "";
 

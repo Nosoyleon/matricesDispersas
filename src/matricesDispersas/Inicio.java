@@ -244,11 +244,13 @@ public class Inicio {
 			}
 
 			case SUMAR_FILAS: {
+				System.out.println(mainForma1.sumRows());
 
 				break;
 			}
 
 			case SUMAR_COLUMNAS: {
+				System.out.println(mainForma1.sumCols());
 
 				break;
 			}
