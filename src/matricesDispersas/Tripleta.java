@@ -158,7 +158,7 @@ public class Tripleta {
 
 		return output;
 	}
-	
+
 	public void insertDato(Scanner scanner) {
 		System.out.println("Fila:");
 		int insertRow = scanner.nextInt();
@@ -195,10 +195,8 @@ public class Tripleta {
 		if (!cordExist) {
 			// Si no existe, puede o no estar en el rango.
 			// Redimensionar a mayor fila, mayor columna, incrementar numDatos
-			int maxRows = getRowsCount() - 1 > insertRow ? getRowsCount()
-					: insertRow + 1;
-			int maxCols = getColsCount() - 1 > insertCol ? getColsCount()
-					: insertCol + 1;
+			int maxRows = getRowsCount() - 1 > insertRow ? getRowsCount() : insertRow + 1;
+			int maxCols = getColsCount() - 1 > insertCol ? getColsCount() : insertCol + 1;
 			int newNumDatos = getNumDatos() + 1;
 			int[][] newDatos = new int[newNumDatos + 1][3];
 			newDatos[0][0] = maxRows;
@@ -227,22 +225,22 @@ public class Tripleta {
 		int foundRow;
 		int foundCol;
 		boolean found = false;
-		
+
 		for (int i = 1; i <= getNumDatos(); i++) {
 			if (datos[i][2] == dato) {
 				foundRow = datos[i][0];
 				foundCol = datos[i][1];
 				deleteByCord(foundRow, foundCol);
-				found= true;
+				found = true;
 			}
 
 		}
-		
-		if(!found) {
+
+		if (!found) {
 			System.out.println("No se encontró la coordenada");
 		}
 	}
-	
+
 	public void deleteByCord(int row, int col) {
 		boolean found = false;
 		int[][] newDatos = new int[getNumDatos()][3];
@@ -272,6 +270,88 @@ public class Tripleta {
 
 	}
 
+	public void sumMatrix(Tripleta matrizToSum) {
+		if (matrizToSum == null) {
+			return;
+		}
+
+		int rows = Math.max(getRowsCount(), matrizToSum.getRowsCount());
+		int cols = Math.max(getColsCount(), matrizToSum.getColsCount());
+
+		int maxDatos = getNumDatos() + matrizToSum.getNumDatos();
+		int[][] acumulado = new int[maxDatos + 1][3];
+		acumulado[0][0] = rows;
+		acumulado[0][1] = cols;
+		int acumuladoCount = 0;
+
+		// Current Matrix
+		for (int i = 1; i <= datos[0][2]; i++) {
+			int row = datos[i][0];
+			int col = datos[i][1];
+			int value = datos[i][2];
+			boolean found = false;
+
+			for (int j = 1; j <= acumuladoCount && !found; j++) {
+				if (acumulado[j][0] == row && acumulado[j][1] == col) {
+					acumulado[j][2] += value;
+					found = true;
+
+					if (acumulado[j][2] == 0) {
+						for (int k = j; k < acumuladoCount; k++) {
+							acumulado[k][0] = acumulado[k + 1][0];
+							acumulado[k][1] = acumulado[k + 1][1];
+							acumulado[k][2] = acumulado[k + 1][2];
+						}
+						acumuladoCount--;
+					}
+				}
+			}
+
+			if (!found) {
+				acumuladoCount++;
+				acumulado[acumuladoCount][0] = row;
+				acumulado[acumuladoCount][1] = col;
+				acumulado[acumuladoCount][2] = value;
+			}
+		}
+
+		// Matrix to sum
+		int[][] datosToSum = matrizToSum.getDatos();
+		for (int i = 1; i <= datosToSum[0][2]; i++) {
+			int row = datosToSum[i][0];
+			int col = datosToSum[i][1];
+			int value = datosToSum[i][2];
+			boolean found = false;
+
+			for (int j = 1; j <= acumuladoCount && !found; j++) {
+				if (acumulado[j][0] == row && acumulado[j][1] == col) {
+					acumulado[j][2] += value;
+					found = true;
+
+					if (acumulado[j][2] == 0) {
+						for (int k = j; k < acumuladoCount; k++) {
+							acumulado[k][0] = acumulado[k + 1][0];
+							acumulado[k][1] = acumulado[k + 1][1];
+							acumulado[k][2] = acumulado[k + 1][2];
+						}
+						acumuladoCount--;
+					}
+				}
+			}
+
+			if (!found) {
+				acumuladoCount++;
+				acumulado[acumuladoCount][0] = row;
+				acumulado[acumuladoCount][1] = col;
+				acumulado[acumuladoCount][2] = value;
+			}
+		}
+
+		acumulado[0][2] = acumuladoCount;
+		datos = removeZeroValues(acumulado);
+		orderMatriz();
+	}
+
 	public void orderMatriz() {
 		Arrays.sort(datos, 1, datos.length, (a, b) -> {
 			if (a[0] != b[0]) {
@@ -281,6 +361,33 @@ public class Tripleta {
 			}
 		});
 
+	}
+
+	public int[][] removeZeroValues(int[][] createdMatrix) {
+		int validValues = 0;
+
+		for (int i = 1; i <= createdMatrix[0][2]; i++) {
+			if (createdMatrix[i][2] != 0) {
+				validValues++;
+			}
+		}
+
+		int[][] cleanedMatrix = new int[validValues + 1][3];
+		cleanedMatrix[0][0] = createdMatrix[0][0];
+		cleanedMatrix[0][1] = createdMatrix[0][1];
+		cleanedMatrix[0][2] = validValues;
+
+		int pos = 1;
+		for (int i = 1; i <= createdMatrix[0][2]; i++) {
+			if (createdMatrix[i][2] != 0) {
+				cleanedMatrix[pos][0] = createdMatrix[i][0];
+				cleanedMatrix[pos][1] = createdMatrix[i][1];
+				cleanedMatrix[pos][2] = createdMatrix[i][2];
+				pos++;
+			}
+		}
+
+		return cleanedMatrix;
 	}
 
 }
